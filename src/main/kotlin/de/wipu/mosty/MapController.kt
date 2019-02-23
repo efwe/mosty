@@ -5,7 +5,6 @@ import org.springframework.http.MediaType
 import org.springframework.http.codec.ServerSentEvent
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
-import java.time.Duration
 import java.time.Instant
 import java.util.*
 
@@ -16,8 +15,8 @@ class Controller(val trackPointRepository: TrackPointRepository, val trackReposi
     @CrossOrigin
     @GetMapping(path = ["/tracks"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody
-    fun getLatestTrack(): Flux<ServerSentEvent<Track>> {
-        return trackRepository.findByStartAfter(Date.from(Instant.parse("2018-05-01T00:00:00.00Z")))
+    fun getLatestTracks(): Flux<ServerSentEvent<Track>> {
+        return trackRepository.findByStartBetween(Date.from(Instant.parse("2018-04-07T00:00:00.00Z")),Date.from(Instant.parse("2018-05-05T00:00:00.00Z")))
                 .map { track: Track ->
                     ServerSentEvent
                             .builder<Track>()
@@ -25,15 +24,22 @@ class Controller(val trackPointRepository: TrackPointRepository, val trackReposi
                             .event("track")
                             .build()
                 }
-                .delayElements(Duration.ofSeconds(1))
 
     }
 
     @CrossOrigin
     @GetMapping(value = ["/track/{id}/points"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody
-    fun trackPoints(@PathVariable("id") trackId: String): Flux<TrackPoint> {
+    fun trackPoints(@PathVariable("id") trackId: String): Flux<ServerSentEvent<TrackPoint>> {
         return trackPointRepository.findByTrackId(ObjectId(trackId))
+                .map { point: TrackPoint ->
+                    ServerSentEvent
+                            .builder<TrackPoint>()
+                            .data(point)
+                            .event("point")
+                            .build()
+                }
+
     }
 
 }

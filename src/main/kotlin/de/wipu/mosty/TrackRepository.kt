@@ -8,6 +8,6 @@ import java.util.*
 @Repository
 interface TrackRepository : ReactiveMongoRepository<Track, String> {
 
-    fun findByStartAfter(date: Date): Flux<Track>
+    fun findByStartBetween(start: Date, end: Date): Flux<Track>
 
 }

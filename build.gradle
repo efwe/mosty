@@ -21,7 +21,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'de.wipu'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0'
 sourceCompatibility = '1.8'
 
 repositories {
@@ -54,4 +54,9 @@ compileTestKotlin {
 		freeCompilerArgs = ['-Xjsr305=strict']
 		jvmTarget = '1.8'
 	}
+}
+
+task deploy(type:Exec, dependsOn: build)  {
+  workingDir '/home/fw/Devel/mosty'
+  commandLine 'scp', 'build/libs/mosty-1.0.0.jar', 'fw@map.123k.org:/home/fw/devel/mosty/'
 }
