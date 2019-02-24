@@ -12,12 +12,14 @@ class TrackPointReadConverter : Converter<Document, TrackPoint> {
 
     override fun convert(source: Document): TrackPoint {
         // mongo has [lon,lat] (20,50) and we need [lat,lon] (50,20)
-        var location: ArrayList<Double> = source["location"] as ArrayList<Double>
+        val location: ArrayList<Double> = source["location"] as ArrayList<Double>
+        // we want to transport only the long and not a complete date
+        val time: Long = (source["time"] as Date).toInstant().epochSecond
         location.reverse()
         return TrackPoint(source["_id"].toString()
                 , null
                 , location
-                , source["time"] as Date
+                , time
                 , source["elevation"] as Double)
     }
 }

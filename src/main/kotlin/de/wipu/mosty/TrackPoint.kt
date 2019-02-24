@@ -11,7 +11,7 @@ import java.util.*
 data class TrackPoint(@JsonIgnore val id: String,
                       @JsonIgnore @Field("route_id") val trackId: ObjectId?,
                       val location: ArrayList<Double>,
-                      val time: Date,
+                      val time: Long,
                       val elevation: Double) {
 
     override fun equals(other: Any?): Boolean {
