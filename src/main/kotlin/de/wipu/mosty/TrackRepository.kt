@@ -10,4 +10,6 @@ interface TrackRepository : ReactiveMongoRepository<Track, String> {
 
     fun findByStartBetween(start: Date, end: Date): Flux<Track>
 
+    fun findTop10ByOrderByStartDesc(): Flux<Track>
+
 }

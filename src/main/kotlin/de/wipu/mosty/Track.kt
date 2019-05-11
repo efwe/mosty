@@ -29,7 +29,7 @@ import java.util.*
 data class Track(val id: String,
                  @Field("bounding_box") val boundingBox: HashMap<String, HashMap<String,Double>>,
                  @Field("track_start") val start: Date,
-                 @Field("track_stop") val Stop: Date,
+                 @Field("track_stop") val stop: Date,
                  val ascend: Double,
                  val descend: Double,
                  val distance: Double,
@@ -45,7 +45,7 @@ data class Track(val id: String,
 
         if (id != other.id) return false
         if (start != other.start) return false
-        if (Stop != other.Stop) return false
+        if (stop != other.stop) return false
         if (ascend != other.ascend) return false
         if (descend != other.descend) return false
         if (distance != other.distance) return false
@@ -59,7 +59,7 @@ data class Track(val id: String,
     override fun hashCode(): Int {
         var result = id.hashCode()
         result = 31 * result + start.hashCode()
-        result = 31 * result + Stop.hashCode()
+        result = 31 * result + stop.hashCode()
         result = 31 * result + ascend.hashCode()
         result = 31 * result + descend.hashCode()
         result = 31 * result + distance.hashCode()

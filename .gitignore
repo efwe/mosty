@@ -1,5 +1,6 @@
 .gradle
 /build/
+/osm/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### IntelliJ IDEA ###

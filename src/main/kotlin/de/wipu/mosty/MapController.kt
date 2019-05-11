@@ -18,7 +18,7 @@ class Controller(val trackPointRepository: TrackPointRepository, val trackReposi
     @GetMapping(path = ["/tracks"], produces = [MediaType.TEXT_EVENT_STREAM_VALUE])
     @ResponseBody
     fun getLatestTracks(): Flux<ServerSentEvent<Track>> {
-        return trackRepository.findByStartBetween(Date.from(Instant.parse("2018-04-07T00:00:00.00Z")), Date.from(Instant.parse("2018-05-05T00:00:00.00Z")))
+        return trackRepository.findTop10ByOrderByStartDesc()
                 .map { track: Track ->
                     ServerSentEvent
                             .builder<Track>()
@@ -26,7 +26,6 @@ class Controller(val trackPointRepository: TrackPointRepository, val trackReposi
                             .event("track")
                             .build()
                 }
-
     }
 
     @CrossOrigin
